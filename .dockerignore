@@ -1,0 +1,12 @@
+.git
+.agents
+.codex
+.env
+.env.*
+!.env.example
+**/__pycache__/
+**/.pytest_cache/
+**/.venv/
+**/node_modules/
+frontend/dist/
+deployment/backups/
