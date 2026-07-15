@@ -480,9 +480,11 @@ dd {
 
 .admin-shell {
   min-height: 100vh;
+  height: 100vh;
   display: grid;
   grid-template-columns: 280px minmax(0, 1fr);
   background: #f6f8fb;
+  overflow: hidden;
 }
 
 .admin-sidebar {
@@ -495,6 +497,7 @@ dd {
   position: sticky;
   top: 0;
   height: 100vh;
+  overflow-y: auto;
 }
 
 .admin-sidebar nav {
@@ -524,6 +527,8 @@ dd {
 
 .admin-main {
   min-width: 0;
+  height: 100vh;
+  overflow-y: auto;
 }
 
 .admin-topbar {
@@ -1079,13 +1084,21 @@ dd {
 
   .admin-shell {
     grid-template-columns: 1fr;
+    height: auto;
+    overflow: visible;
   }
 
   .admin-sidebar {
     position: static;
     height: auto;
+    overflow: visible;
     border-right: 0;
     border-bottom: 1px solid var(--line);
+  }
+
+  .admin-main {
+    height: auto;
+    overflow: visible;
   }
 
   .admin-sidebar nav {
