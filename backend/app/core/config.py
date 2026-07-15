@@ -31,6 +31,9 @@ class Settings(BaseSettings):
     csrf_cookie_name: str = "abn_csrf_token"
     csrf_header_name: str = "X-CSRF-Token"
     max_upload_bytes: int = Field(default=2_000_000, ge=100_000)
+    bootstrap_admin_name: str = ""
+    bootstrap_admin_email: str = ""
+    bootstrap_admin_password: str = ""
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 

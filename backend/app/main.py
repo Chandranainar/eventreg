@@ -12,9 +12,12 @@ from app.core.error import (
     http_exception_handler,
     validation_exception_handler,
 )
+from app.core.security import hash_password
 from app.database.base import Base
 from app.database.session import SessionLocal, engine
+from app.models.admin import AdminUser
 from app.services.events import get_or_create_default_event
+from sqlalchemy import select
 
 Base.metadata.create_all(bind=engine)
 
@@ -89,10 +92,26 @@ app.include_router(audit_router, prefix="/api/admin")
 
 
 @app.on_event("startup")
-def seed_event():
+def seed_initial_data():
     db = SessionLocal()
     try:
         get_or_create_default_event(db)
+        if settings.bootstrap_admin_email and settings.bootstrap_admin_password:
+            email = settings.bootstrap_admin_email.strip().lower()
+            admin = db.scalar(select(AdminUser).where(AdminUser.email == email))
+            if admin:
+                admin.name = settings.bootstrap_admin_name or admin.name
+                admin.password_hash = hash_password(settings.bootstrap_admin_password)
+                admin.is_active = True
+            else:
+                admin = AdminUser(
+                    name=settings.bootstrap_admin_name or "ABN Admin",
+                    email=email,
+                    password_hash=hash_password(settings.bootstrap_admin_password),
+                    is_active=True,
+                )
+                db.add(admin)
+            db.commit()
     finally:
         db.close()
 

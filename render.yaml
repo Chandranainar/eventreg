@@ -25,6 +25,12 @@ services:
         value: Asia/Kolkata
       - key: GOOGLE_SHEETS_SYNC_ENABLED
         value: "false"
+      - key: BOOTSTRAP_ADMIN_NAME
+        value: ABN Admin
+      - key: BOOTSTRAP_ADMIN_EMAIL
+        value: admin@abnevent.com
+      - key: BOOTSTRAP_ADMIN_PASSWORD
+        value: ABN@Event2026!
 
 databases:
   - name: abn-event-registration-db
