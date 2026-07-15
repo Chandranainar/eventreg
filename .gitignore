@@ -1,0 +1,17 @@
+.env
+*.pyc
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.DS_Store
+node_modules/
+dist/
+frontend/dist/
+backend/.coverage
+backend/htmlcov/
+*.sqlite
+*.db
+deployment/backups/
+deployment/certbot/conf/
+deployment/certbot/www/

@@ -1,0 +1,2 @@
+# Daily 02:15 UTC backup with 14-day retention.
+15 2 * * * cd /opt/abn-event-registration && ./deployment/scripts/backup_postgres.sh && find deployment/backups -type f -name '*.sql.gz' -mtime +14 -delete
