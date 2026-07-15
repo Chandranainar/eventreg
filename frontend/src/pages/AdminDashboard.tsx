@@ -87,20 +87,28 @@ export default function AdminDashboard() {
 
       {summary && (
         <div className="dashboard-summary">
-          <div className="summary-grid summary-grid-primary">
-            <Metric label="Total responses" value={summary.total_registrations} />
-            <Metric label="Confirmed" value={summary.confirmed_registrations} />
-            <Metric label="Seats left" value={summary.available_seats ?? "Open"} />
-            <Metric label="Today" value={summary.registrations_received_today} />
-          </div>
-          <div className="summary-grid summary-grid-secondary">
-            <Metric label="Waitlisted" value={summary.waitlisted_registrations} />
-            <Metric label="Cancelled" value={summary.cancelled_registrations} />
-            <Metric label="Alumni" value={summary.alpha_alumni_count} />
-            <Metric label="Vegetarian" value={summary.vegetarian_count} />
-            <Metric label="Non-veg" value={summary.non_vegetarian_count} />
-            <Metric label="Email failed" value={summary.failed_email_count} tone={summary.failed_email_count ? "warn" : ""} />
-            <Metric label="Sheet failed" value={summary.failed_google_sheets_sync_count} tone={summary.failed_google_sheets_sync_count ? "warn" : ""} />
+          <div className="overview-panel">
+            <div className="overview-main">
+              <Metric label="Total responses" value={summary.total_registrations} />
+              <Metric label="Confirmed" value={summary.confirmed_registrations} />
+              <Metric label="Seats left" value={summary.available_seats ?? "Open"} />
+              <Metric label="Today" value={summary.registrations_received_today} />
+            </div>
+            <details className="summary-breakdown">
+              <summary>
+                <SlidersHorizontal size={18} aria-hidden="true" />
+                View breakdown
+              </summary>
+              <div className="breakdown-list">
+                <BreakdownItem label="Waitlisted" value={summary.waitlisted_registrations} />
+                <BreakdownItem label="Cancelled" value={summary.cancelled_registrations} />
+                <BreakdownItem label="Alumni" value={summary.alpha_alumni_count} />
+                <BreakdownItem label="Vegetarian" value={summary.vegetarian_count} />
+                <BreakdownItem label="Non-veg" value={summary.non_vegetarian_count} />
+                <BreakdownItem label="Email failed" value={summary.failed_email_count} tone={summary.failed_email_count ? "warn" : ""} />
+                <BreakdownItem label="Sheet failed" value={summary.failed_google_sheets_sync_count} tone={summary.failed_google_sheets_sync_count ? "warn" : ""} />
+              </div>
+            </details>
           </div>
         </div>
       )}
@@ -230,6 +238,15 @@ function Metric({ label, value, tone = "" }: { label: string; value: number | st
       <span>{label}</span>
       <strong>{value}</strong>
     </article>
+  );
+}
+
+function BreakdownItem({ label, value, tone = "" }: { label: string; value: number | string; tone?: string }) {
+  return (
+    <div className={`breakdown-item ${tone}`}>
+      <span>{label}</span>
+      <strong>{value}</strong>
+    </div>
   );
 }
 
