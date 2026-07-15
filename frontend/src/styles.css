@@ -605,6 +605,13 @@ dd {
   margin-bottom: 16px;
 }
 
+.toolbar-primary {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) auto;
+  gap: 12px;
+  align-items: end;
+}
+
 .search-box {
   display: flex;
   align-items: center;
@@ -620,10 +627,39 @@ dd {
   padding-left: 0;
 }
 
+.quick-filters {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(150px, 1fr));
+  gap: 10px;
+  min-width: min(390px, 100%);
+}
+
 .filter-grid {
   display: grid;
   grid-template-columns: repeat(7, minmax(130px, 1fr));
   gap: 10px;
+}
+
+.filter-drawer {
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.filter-drawer summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-weight: 900;
+  list-style: none;
+}
+
+.filter-drawer summary::-webkit-details-marker {
+  display: none;
+}
+
+.filter-drawer .filter-grid {
+  margin-top: 12px;
 }
 
 .table-frame {
@@ -1063,6 +1099,10 @@ dd {
   box-shadow: 0 18px 48px rgba(23, 32, 42, 0.07);
 }
 
+.admin-shell .toolbar-primary {
+  grid-template-columns: minmax(260px, 1fr) minmax(310px, 390px);
+}
+
 .admin-shell .search-box {
   min-height: 52px;
 }
@@ -1076,11 +1116,30 @@ dd {
   gap: 12px;
 }
 
+.admin-shell .quick-filters label,
 .admin-shell .filter-grid label {
   color: #6d5a2d;
   font-size: 0.74rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.admin-shell .filter-drawer {
+  border-top-color: rgba(201, 162, 75, 0.18);
+}
+
+.admin-shell .filter-drawer summary {
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid rgba(201, 162, 75, 0.28);
+  border-radius: 8px;
+  color: #15100a;
+  background: #fffaf0;
+}
+
+.admin-shell .filter-drawer[open] summary {
+  color: #e8cf8a;
+  background: #15100a;
 }
 
 .admin-shell .table-frame {
@@ -1125,9 +1184,60 @@ dd {
   background: #fff;
 }
 
+.admin-shell .dashboard-summary {
+  display: grid;
+  gap: 12px;
+}
+
+.admin-shell .summary-grid-primary {
+  grid-template-columns: repeat(4, minmax(150px, 1fr));
+}
+
+.admin-shell .summary-grid-primary .metric {
+  min-height: 108px;
+}
+
+.admin-shell .summary-grid-primary .metric strong {
+  font-size: 2rem;
+}
+
+.admin-shell .summary-grid-secondary {
+  grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+  gap: 10px;
+}
+
+.admin-shell .summary-grid-secondary .metric {
+  min-height: 74px;
+  padding: 14px 14px 12px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.admin-shell .summary-grid-secondary .metric::before {
+  height: 2px;
+  opacity: 0.58;
+}
+
+.admin-shell .summary-grid-secondary .metric strong {
+  margin-top: 5px;
+  font-size: 1.22rem;
+}
+
 @media (max-width: 1080px) {
   .summary-grid {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .admin-shell .summary-grid-primary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .admin-shell .toolbar-primary {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-shell .quick-filters {
+    min-width: 0;
+    width: 100%;
   }
 
   .filter-grid {
@@ -1212,6 +1322,21 @@ dd {
   .summary-grid,
   .filter-grid {
     grid-template-columns: 1fr;
+  }
+
+  .admin-shell .summary-grid-primary,
+  .admin-shell .summary-grid-secondary,
+  .admin-shell .quick-filters {
+    grid-template-columns: 1fr;
+  }
+
+  .site-shell .form-section {
+    padding: 15px;
+    border-radius: 8px;
+  }
+
+  .site-shell .form-section-head {
+    align-items: flex-start;
   }
 
   .responses-table {
@@ -1577,9 +1702,60 @@ dd {
   background: rgba(232, 207, 138, 0.18);
 }
 
+.site-shell .form-sections {
+  position: relative;
+  display: grid;
+  gap: 18px;
+}
+
+.site-shell .form-section {
+  display: grid;
+  gap: 16px;
+  padding: clamp(16px, 2.4vw, 22px);
+  border: 1px solid rgba(201, 162, 75, 0.18);
+  border-radius: 10px;
+  background: rgba(243, 237, 224, 0.032);
+}
+
+.site-shell .form-section-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(201, 162, 75, 0.14);
+}
+
+.site-shell .form-section-head span {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(232, 207, 138, 0.36);
+  border-radius: 50%;
+  color: var(--ink);
+  background: linear-gradient(120deg, var(--gold), var(--gold-bright));
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.site-shell .form-section-head h3 {
+  margin: 0;
+  color: var(--ivory);
+  font-size: 1.02rem;
+}
+
 .site-shell .form-grid {
   position: relative;
   gap: 20px 18px;
+}
+
+.site-shell .choice-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.site-shell .alumni-grid {
+  padding-top: 4px;
 }
 
 .site-shell .info-card > span,

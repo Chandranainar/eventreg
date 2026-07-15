@@ -140,72 +140,98 @@ export default function RegistrationForm({ event }: RegistrationFormProps) {
           {submitError}
         </div>
       )}
-      <div className="form-grid">
-        <Field label="Full Name" inputId={`${fieldId}-full-name`} required error={errors.full_name}>
-          <input id={`${fieldId}-full-name`} value={values.full_name} onChange={(event) => update("full_name", event.target.value)} disabled={closed || submitting} autoComplete="name" placeholder="Enter full name" />
-        </Field>
-        <Field label="Official Contact No" inputId={`${fieldId}-phone`} required error={errors.phone_number}>
-          <input id={`${fieldId}-phone`} inputMode="tel" value={values.phone_number} onChange={(event) => update("phone_number", event.target.value)} disabled={closed || submitting} autoComplete="tel" placeholder="10 digit mobile number" />
-        </Field>
-        <Field label="Additional Contact No" inputId={`${fieldId}-additional-phone`} error={errors.additional_contact_number}>
-          <input id={`${fieldId}-additional-phone`} inputMode="tel" value={values.additional_contact_number} onChange={(event) => update("additional_contact_number", event.target.value)} disabled={closed || submitting} autoComplete="tel" placeholder="Optional" />
-        </Field>
-        <Field label="Email Id" inputId={`${fieldId}-email`} error={errors.email}>
-          <input id={`${fieldId}-email`} type="email" value={values.email} onChange={(event) => update("email", event.target.value)} disabled={closed || submitting} autoComplete="email" placeholder="name@example.com" />
-        </Field>
-        <Field label="Qualification" inputId={`${fieldId}-qualification`} error={errors.educational_qualification}>
-          <input id={`${fieldId}-qualification`} value={values.educational_qualification} onChange={(event) => update("educational_qualification", event.target.value)} disabled={closed || submitting} placeholder="Degree / qualification" />
-        </Field>
-        <Field label="Age" inputId={`${fieldId}-age`} required error={errors.age}>
-          <input id={`${fieldId}-age`} type="number" min={10} max={100} value={values.age} onChange={(event) => update("age", event.target.value === "" ? "" : Number(event.target.value))} disabled={closed || submitting} placeholder="Age" />
-        </Field>
-        <Field label="Current City of Residence" inputId={`${fieldId}-city`} required error={errors.current_city}>
-          <input id={`${fieldId}-city`} value={values.current_city} onChange={(event) => update("current_city", event.target.value)} disabled={closed || submitting} autoComplete="address-level2" placeholder="City" />
-        </Field>
-        <Field label="Gender" inputId={`${fieldId}-gender`} required error={errors.gender}>
-          <select id={`${fieldId}-gender`} value={values.gender} onChange={(event) => update("gender", event.target.value)} disabled={closed || submitting}>
-            <option value="">Select</option>
-            <option>Male</option>
-            <option>Female</option>
-            <option>Other</option>
-          </select>
-        </Field>
-        <Field label="Profession" inputId={`${fieldId}-profession`} required error={errors.profession}>
-          <select id={`${fieldId}-profession`} value={values.profession} onChange={(event) => update("profession", event.target.value)} disabled={closed || submitting}>
-            <option value="">Select</option>
-            {professions.map((profession) => (
-              <option key={profession}>{profession}</option>
-            ))}
-          </select>
-        </Field>
-        <Field label="Business / Company Name" inputId={`${fieldId}-company`} required error={errors.business_company_name}>
-          <input id={`${fieldId}-company`} value={values.business_company_name} onChange={(event) => update("business_company_name", event.target.value)} disabled={closed || submitting} autoComplete="organization" placeholder="Business or company name" />
-        </Field>
-        <ChoiceField label="Attendance" required error={errors.attendance}>
-          {["Will attend for sure", "Likely to attend", "Need to check on my schedule", "Not available"].map((option) => (
-            <Choice key={option} name="attendance" value={option} checked={values.attendance === option} onChange={() => update("attendance", option)} disabled={closed || submitting} />
-          ))}
-        </ChoiceField>
-        <ChoiceField label="Food Preference" required error={errors.food_preference}>
-          {["Vegetarian", "Non-Vegetarian"].map((option) => (
-            <Choice key={option} name="food_preference" value={option} checked={values.food_preference === option} onChange={() => update("food_preference", option)} disabled={closed || submitting} />
-          ))}
-        </ChoiceField>
-        <ChoiceField label="Alpha School Alumni" required error={errors.alpha_alumni}>
-          {["Yes", "No"].map((option) => (
-            <Choice key={option} name="alpha_alumni" value={option} checked={values.alpha_alumni === option} onChange={() => update("alpha_alumni", option)} disabled={closed || submitting} />
-          ))}
-        </ChoiceField>
-        {values.alpha_alumni === "Yes" && (
-          <>
-            <Field label="Studied in Alpha School up to? (Standard)" inputId={`${fieldId}-standard`} required error={errors.studied_standard}>
-              <input id={`${fieldId}-standard`} value={values.studied_standard} onChange={(event) => update("studied_standard", event.target.value)} disabled={closed || submitting} placeholder="Example: 12th Standard" />
+      <div className="form-sections">
+        <section className="form-section">
+          <div className="form-section-head">
+            <span>01</span>
+            <h3>Contact details</h3>
+          </div>
+          <div className="form-grid">
+            <Field label="Full Name" inputId={`${fieldId}-full-name`} required error={errors.full_name}>
+              <input id={`${fieldId}-full-name`} value={values.full_name} onChange={(event) => update("full_name", event.target.value)} disabled={closed || submitting} autoComplete="name" placeholder="Enter full name" />
             </Field>
-            <Field label="Year of passing out from Alpha School" inputId={`${fieldId}-year`} required error={errors.year_of_passing}>
-              <input id={`${fieldId}-year`} inputMode="numeric" value={values.year_of_passing} onChange={(event) => update("year_of_passing", event.target.value)} disabled={closed || submitting} placeholder="YYYY" />
+            <Field label="Official Contact No" inputId={`${fieldId}-phone`} required error={errors.phone_number}>
+              <input id={`${fieldId}-phone`} inputMode="tel" value={values.phone_number} onChange={(event) => update("phone_number", event.target.value)} disabled={closed || submitting} autoComplete="tel" placeholder="10 digit mobile number" />
             </Field>
-          </>
-        )}
+            <Field label="Additional Contact No" inputId={`${fieldId}-additional-phone`} error={errors.additional_contact_number}>
+              <input id={`${fieldId}-additional-phone`} inputMode="tel" value={values.additional_contact_number} onChange={(event) => update("additional_contact_number", event.target.value)} disabled={closed || submitting} autoComplete="tel" placeholder="Optional" />
+            </Field>
+            <Field label="Email Id" inputId={`${fieldId}-email`} error={errors.email}>
+              <input id={`${fieldId}-email`} type="email" value={values.email} onChange={(event) => update("email", event.target.value)} disabled={closed || submitting} autoComplete="email" placeholder="name@example.com" />
+            </Field>
+          </div>
+        </section>
+
+        <section className="form-section">
+          <div className="form-section-head">
+            <span>02</span>
+            <h3>Profile</h3>
+          </div>
+          <div className="form-grid">
+            <Field label="Qualification" inputId={`${fieldId}-qualification`} error={errors.educational_qualification}>
+              <input id={`${fieldId}-qualification`} value={values.educational_qualification} onChange={(event) => update("educational_qualification", event.target.value)} disabled={closed || submitting} placeholder="Degree / qualification" />
+            </Field>
+            <Field label="Age" inputId={`${fieldId}-age`} required error={errors.age}>
+              <input id={`${fieldId}-age`} type="number" min={10} max={100} value={values.age} onChange={(event) => update("age", event.target.value === "" ? "" : Number(event.target.value))} disabled={closed || submitting} placeholder="Age" />
+            </Field>
+            <Field label="Current City of Residence" inputId={`${fieldId}-city`} required error={errors.current_city}>
+              <input id={`${fieldId}-city`} value={values.current_city} onChange={(event) => update("current_city", event.target.value)} disabled={closed || submitting} autoComplete="address-level2" placeholder="City" />
+            </Field>
+            <Field label="Gender" inputId={`${fieldId}-gender`} required error={errors.gender}>
+              <select id={`${fieldId}-gender`} value={values.gender} onChange={(event) => update("gender", event.target.value)} disabled={closed || submitting}>
+                <option value="">Select</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+              </select>
+            </Field>
+            <Field label="Profession" inputId={`${fieldId}-profession`} required error={errors.profession}>
+              <select id={`${fieldId}-profession`} value={values.profession} onChange={(event) => update("profession", event.target.value)} disabled={closed || submitting}>
+                <option value="">Select</option>
+                {professions.map((profession) => (
+                  <option key={profession}>{profession}</option>
+                ))}
+              </select>
+            </Field>
+            <Field label="Business / Company Name" inputId={`${fieldId}-company`} required error={errors.business_company_name}>
+              <input id={`${fieldId}-company`} value={values.business_company_name} onChange={(event) => update("business_company_name", event.target.value)} disabled={closed || submitting} autoComplete="organization" placeholder="Business or company name" />
+            </Field>
+          </div>
+        </section>
+
+        <section className="form-section">
+          <div className="form-section-head">
+            <span>03</span>
+            <h3>Event preferences</h3>
+          </div>
+          <div className="choice-stack">
+            <ChoiceField label="Attendance" required error={errors.attendance}>
+              {["Will attend for sure", "Likely to attend", "Need to check on my schedule", "Not available"].map((option) => (
+                <Choice key={option} name="attendance" value={option} checked={values.attendance === option} onChange={() => update("attendance", option)} disabled={closed || submitting} />
+              ))}
+            </ChoiceField>
+            <ChoiceField label="Food Preference" required error={errors.food_preference}>
+              {["Vegetarian", "Non-Vegetarian"].map((option) => (
+                <Choice key={option} name="food_preference" value={option} checked={values.food_preference === option} onChange={() => update("food_preference", option)} disabled={closed || submitting} />
+              ))}
+            </ChoiceField>
+            <ChoiceField label="Alpha School Alumni" required error={errors.alpha_alumni}>
+              {["Yes", "No"].map((option) => (
+                <Choice key={option} name="alpha_alumni" value={option} checked={values.alpha_alumni === option} onChange={() => update("alpha_alumni", option)} disabled={closed || submitting} />
+              ))}
+            </ChoiceField>
+            {values.alpha_alumni === "Yes" && (
+              <div className="form-grid alumni-grid">
+                <Field label="Studied in Alpha School up to? (Standard)" inputId={`${fieldId}-standard`} required error={errors.studied_standard}>
+                  <input id={`${fieldId}-standard`} value={values.studied_standard} onChange={(event) => update("studied_standard", event.target.value)} disabled={closed || submitting} placeholder="Example: 12th Standard" />
+                </Field>
+                <Field label="Year of passing out from Alpha School" inputId={`${fieldId}-year`} required error={errors.year_of_passing}>
+                  <input id={`${fieldId}-year`} inputMode="numeric" value={values.year_of_passing} onChange={(event) => update("year_of_passing", event.target.value)} disabled={closed || submitting} placeholder="YYYY" />
+                </Field>
+              </div>
+            )}
+          </div>
+        </section>
       </div>
       <p className="consent-note">By submitting, you agree that Alpha Business Network may use these details for event registration, communication and attendance management.</p>
       <button className="btn btn-primary submit-btn" type="submit" disabled={closed || submitting}>

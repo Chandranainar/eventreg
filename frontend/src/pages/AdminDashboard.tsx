@@ -1,4 +1,4 @@
-import { Download, Filter, Search } from "lucide-react";
+import { Download, Filter, Search, SlidersHorizontal } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -86,35 +86,49 @@ export default function AdminDashboard() {
       </div>
 
       {summary && (
-        <div className="summary-grid">
-          <Metric label="Total" value={summary.total_registrations} />
-          <Metric label="Confirmed" value={summary.confirmed_registrations} />
-          <Metric label="Waitlisted" value={summary.waitlisted_registrations} />
-          <Metric label="Cancelled" value={summary.cancelled_registrations} />
-          <Metric label="Today" value={summary.registrations_received_today} />
-          <Metric label="Alumni" value={summary.alpha_alumni_count} />
-          <Metric label="Vegetarian" value={summary.vegetarian_count} />
-          <Metric label="Non-vegetarian" value={summary.non_vegetarian_count} />
-          <Metric label="Seats left" value={summary.available_seats ?? "Open"} />
-          <Metric label="Email failed" value={summary.failed_email_count} tone={summary.failed_email_count ? "warn" : ""} />
-          <Metric label="Sheet failed" value={summary.failed_google_sheets_sync_count} tone={summary.failed_google_sheets_sync_count ? "warn" : ""} />
+        <div className="dashboard-summary">
+          <div className="summary-grid summary-grid-primary">
+            <Metric label="Total responses" value={summary.total_registrations} />
+            <Metric label="Confirmed" value={summary.confirmed_registrations} />
+            <Metric label="Seats left" value={summary.available_seats ?? "Open"} />
+            <Metric label="Today" value={summary.registrations_received_today} />
+          </div>
+          <div className="summary-grid summary-grid-secondary">
+            <Metric label="Waitlisted" value={summary.waitlisted_registrations} />
+            <Metric label="Cancelled" value={summary.cancelled_registrations} />
+            <Metric label="Alumni" value={summary.alpha_alumni_count} />
+            <Metric label="Vegetarian" value={summary.vegetarian_count} />
+            <Metric label="Non-veg" value={summary.non_vegetarian_count} />
+            <Metric label="Email failed" value={summary.failed_email_count} tone={summary.failed_email_count ? "warn" : ""} />
+            <Metric label="Sheet failed" value={summary.failed_google_sheets_sync_count} tone={summary.failed_google_sheets_sync_count ? "warn" : ""} />
+          </div>
         </div>
       )}
 
       <div className="table-tools">
-        <label className="search-box">
-          <Search size={18} aria-hidden="true" />
-          <input placeholder="Search name, ID, email, phone, city, profession or company" value={search} onChange={(event) => setSearch(event.target.value)} />
-        </label>
-        <div className="filter-grid">
-          <Select label="Status" value={filters.registration_status} onChange={(value) => setFilter("registration_status", value)} options={["confirmed", "waitlisted", "cancelled", "attended", "no_show"]} />
-          <Select label="Gender" value={filters.gender} onChange={(value) => setFilter("gender", value)} options={["Male", "Female", "Other"]} />
-          <Select label="Alumni" value={filters.alpha_alumni} onChange={(value) => setFilter("alpha_alumni", value)} options={["Yes", "No"]} />
-          <Select label="Profession" value={filters.profession} onChange={(value) => setFilter("profession", value)} options={professionOptions} />
-          <Select label="Email" value={filters.email_status} onChange={(value) => setFilter("email_status", value)} options={["pending", "sent", "failed"]} />
-          <Select label="Sheet" value={filters.google_sheet_sync_status} onChange={(value) => setFilter("google_sheet_sync_status", value)} options={["disabled", "pending", "synced", "failed"]} />
-          <Select label="Sort" value={filters.sort} onChange={(value) => setFilter("sort", value)} options={["newest", "oldest", "name", "registration_id", "status"]} />
+        <div className="toolbar-primary">
+          <label className="search-box">
+            <Search size={18} aria-hidden="true" />
+            <input placeholder="Search name, ID, email, phone, city, profession or company" value={search} onChange={(event) => setSearch(event.target.value)} />
+          </label>
+          <div className="quick-filters">
+            <Select label="Status" value={filters.registration_status} onChange={(value) => setFilter("registration_status", value)} options={["confirmed", "waitlisted", "cancelled", "attended", "no_show"]} />
+            <Select label="Sort" value={filters.sort} onChange={(value) => setFilter("sort", value)} options={["newest", "oldest", "name", "registration_id", "status"]} />
+          </div>
         </div>
+        <details className="filter-drawer">
+          <summary>
+            <SlidersHorizontal size={18} aria-hidden="true" />
+            More filters
+          </summary>
+          <div className="filter-grid">
+            <Select label="Gender" value={filters.gender} onChange={(value) => setFilter("gender", value)} options={["Male", "Female", "Other"]} />
+            <Select label="Alumni" value={filters.alpha_alumni} onChange={(value) => setFilter("alpha_alumni", value)} options={["Yes", "No"]} />
+            <Select label="Profession" value={filters.profession} onChange={(value) => setFilter("profession", value)} options={professionOptions} />
+            <Select label="Email" value={filters.email_status} onChange={(value) => setFilter("email_status", value)} options={["pending", "sent", "failed"]} />
+            <Select label="Sheet" value={filters.google_sheet_sync_status} onChange={(value) => setFilter("google_sheet_sync_status", value)} options={["disabled", "pending", "synced", "failed"]} />
+          </div>
+        </details>
       </div>
 
       <div className="table-frame" aria-busy={loading}>
