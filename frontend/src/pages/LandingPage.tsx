@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 
 import { publicApi } from "../api/client";
-import eventBrandBanner from "../assets/event-brand-banner.png";
+import eventBrandBanner from "../assets/event-brand-banner-premium.png";
 import Logo from "../components/Logo";
 import RegistrationForm from "../components/RegistrationForm";
 import type { EventInfo } from "../types";

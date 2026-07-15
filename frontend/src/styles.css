@@ -1039,13 +1039,11 @@ dd {
   position: relative;
   width: min(1120px, 100%);
   margin: 0 auto 32px;
-  padding: clamp(8px, 1.3vw, 14px);
-  border: 1px solid rgba(232, 207, 138, 0.34);
+  padding: 0;
+  border: 0;
   border-radius: 14px;
   overflow: hidden;
-  background:
-    linear-gradient(135deg, rgba(232, 207, 138, 0.22), transparent 24%, transparent 76%, rgba(232, 207, 138, 0.2)),
-    linear-gradient(180deg, rgba(26, 21, 14, 0.94), rgba(10, 8, 5, 0.98));
+  background: transparent;
   box-shadow:
     0 30px 90px rgba(0, 0, 0, 0.48),
     0 0 46px rgba(201, 162, 75, 0.22);
@@ -1251,6 +1249,28 @@ dd {
   background: rgba(243, 237, 224, 0.04);
   border-color: rgba(243, 237, 224, 0.18);
   color: var(--ivory);
+}
+
+.site-shell .field.invalid input,
+.site-shell .field.invalid select,
+.site-shell .field.invalid textarea {
+  border-color: rgba(255, 171, 145, 0.78);
+  box-shadow: 0 0 0 3px rgba(255, 171, 145, 0.12);
+}
+
+.site-shell .choice-field.invalid .choice-pill span {
+  border-color: rgba(255, 171, 145, 0.58);
+}
+
+.site-shell .field-error {
+  color: #ffb49f;
+  font-weight: 800;
+}
+
+.site-shell .form-alert.error {
+  border: 1px solid rgba(255, 171, 145, 0.28);
+  background: rgba(90, 29, 18, 0.42);
+  color: #ffd1c4;
 }
 
 .site-shell select option {

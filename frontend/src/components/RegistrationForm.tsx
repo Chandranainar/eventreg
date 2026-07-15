@@ -1,6 +1,6 @@
 import { AlertCircle, Send } from "lucide-react";
 import type { FormEvent, ReactNode } from "react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { ApiError, publicApi } from "../api/client";
 import type { EventInfo, RegistrationPayload, RegistrationResult } from "../types";
@@ -48,18 +48,28 @@ type RegistrationFormProps = {
 };
 
 export default function RegistrationForm({ event }: RegistrationFormProps) {
+  const formRef = useRef<HTMLFormElement>(null);
   const [values, setValues] = useState<RegistrationPayload>(initialValues);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState<RegistrationResult | null>(null);
   const [submitError, setSubmitError] = useState("");
+  const [validationNotice, setValidationNotice] = useState("");
   const [idempotencyKey, setIdempotencyKey] = useState(() => newIdempotencyKey());
   const closed = !event.registration_open;
   const fieldId = useMemo(() => `registration-${event.public_id}`, [event.public_id]);
 
+  useEffect(() => {
+    if (!result) return;
+    window.requestAnimationFrame(() => {
+      document.getElementById("registration-success")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }, [result]);
+
   function update<K extends keyof RegistrationPayload>(key: K, value: RegistrationPayload[K]) {
     setValues((current) => ({ ...current, [key]: value }));
     setErrors((current) => ({ ...current, [key]: "" }));
+    setValidationNotice("");
   }
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -67,7 +77,17 @@ export default function RegistrationForm({ event }: RegistrationFormProps) {
     setSubmitError("");
     const nextErrors = validateRegistration(values);
     setErrors(nextErrors);
-    if (Object.values(nextErrors).some(Boolean)) return;
+    if (Object.values(nextErrors).some(Boolean)) {
+      setValidationNotice("Please complete the highlighted fields before submitting.");
+      window.requestAnimationFrame(() => {
+        const firstError = formRef.current?.querySelector<HTMLElement>(".field-error");
+        const firstField = firstError?.closest<HTMLElement>(".field, .choice-field");
+        firstField?.scrollIntoView({ behavior: "smooth", block: "center" });
+        firstField?.querySelector<HTMLElement>("input, select, textarea")?.focus({ preventScroll: true });
+      });
+      return;
+    }
+    setValidationNotice("");
     setSubmitting(true);
     try {
       const response = await publicApi.register(values, idempotencyKey);
@@ -92,15 +112,28 @@ export default function RegistrationForm({ event }: RegistrationFormProps) {
     setErrors({});
     setResult(null);
     setSubmitError("");
+    setValidationNotice("");
     setIdempotencyKey(newIdempotencyKey());
     document.getElementById("register")?.scrollIntoView({ behavior: "smooth" });
   }
 
-  if (result) return <SuccessCard result={result} onReset={reset} />;
+  if (result) {
+    return (
+      <div id="registration-success">
+        <SuccessCard result={result} onReset={reset} />
+      </div>
+    );
+  }
 
   return (
-    <form className="registration-form" onSubmit={onSubmit} noValidate>
+    <form ref={formRef} className="registration-form" onSubmit={onSubmit} noValidate>
       {closed && <div className="form-alert">Registration for this event is currently closed.</div>}
+      {validationNotice && (
+        <div className="form-alert error" role="alert">
+          <AlertCircle size={18} aria-hidden="true" />
+          {validationNotice}
+        </div>
+      )}
       {submitError && (
         <div className="form-alert error" role="alert">
           <AlertCircle size={18} aria-hidden="true" />
@@ -185,7 +218,7 @@ export default function RegistrationForm({ event }: RegistrationFormProps) {
 
 function Field({ label, inputId, required, error, children }: { label: string; inputId: string; required?: boolean; error?: string; children: ReactNode }) {
   return (
-    <div className="field">
+    <div className={error ? "field invalid" : "field"}>
       <label htmlFor={inputId}>
         {label}
         {required && <span aria-hidden="true"> *</span>}
@@ -198,7 +231,7 @@ function Field({ label, inputId, required, error, children }: { label: string; i
 
 function ChoiceField({ label, required, error, children }: { label: string; required?: boolean; error?: string; children: ReactNode }) {
   return (
-    <fieldset className="choice-field">
+    <fieldset className={error ? "choice-field invalid" : "choice-field"}>
       <legend>
         {label}
         {required && <span aria-hidden="true"> *</span>}
