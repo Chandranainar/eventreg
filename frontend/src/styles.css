@@ -1026,6 +1026,105 @@ dd {
   color: #7b6a42;
 }
 
+.admin-shell .admin-section {
+  display: grid;
+  gap: 18px;
+}
+
+.admin-shell .admin-heading,
+.admin-shell .summary-grid,
+.admin-shell .table-tools,
+.admin-shell .table-frame {
+  width: 100%;
+}
+
+.admin-shell .summary-grid {
+  grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
+  gap: 14px;
+  margin-bottom: 0;
+}
+
+.admin-shell .metric {
+  min-height: 92px;
+  padding: 18px 16px 16px;
+}
+
+.admin-shell .metric strong {
+  font-size: 1.75rem;
+  line-height: 1.05;
+}
+
+.admin-shell .table-tools {
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid rgba(201, 162, 75, 0.22);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 18px 48px rgba(23, 32, 42, 0.07);
+}
+
+.admin-shell .search-box {
+  min-height: 52px;
+}
+
+.admin-shell .search-box input {
+  min-height: 48px;
+}
+
+.admin-shell .filter-grid {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+.admin-shell .filter-grid label {
+  color: #6d5a2d;
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.admin-shell .table-frame {
+  overflow-x: auto;
+}
+
+.admin-shell .table-title {
+  min-width: 1120px;
+  padding: 16px 18px;
+}
+
+.admin-shell .table-title select {
+  width: auto;
+  min-width: 160px;
+}
+
+.admin-shell .responses-table {
+  min-width: 1780px;
+}
+
+.admin-shell .responses-table th,
+.admin-shell .responses-table td {
+  padding: 13px 12px;
+}
+
+.admin-shell .responses-table th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.admin-shell .responses-table tbody tr:nth-child(odd) {
+  background: #fffdf8;
+}
+
+.admin-shell .responses-table tbody tr:hover {
+  background: #fff4da;
+}
+
+.admin-shell .pagination {
+  min-width: 1120px;
+  background: #fff;
+}
+
 @media (max-width: 1080px) {
   .summary-grid {
     grid-template-columns: repeat(3, 1fr);
